@@ -267,7 +267,7 @@ module "iks_cluster" {
 
   # Version policy (To create new change "use_existing" to 'false' uncomment variables and modify them to meet your needs.)
   versionPolicy = {
-    useExisting    = false
+    useExisting    = true 
     policyName     = local.kubever_list
     iksVersionName = "1.21.10-iks.0"
   }
