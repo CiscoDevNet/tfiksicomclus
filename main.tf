@@ -269,7 +269,7 @@ module "iks_cluster" {
   versionPolicy = {
     useExisting    = false
     policyName     = local.kubever_list
-    iksVersionName = "1.22.10-iks.0"
+    iksVersionName = "1.21.10-iks.0"
   }
 
   # Trusted Registry Policy (To create new change "use_existing" to 'false' and set "create_new' to 'true' uncomment variables and modify them to meet your needs.)
