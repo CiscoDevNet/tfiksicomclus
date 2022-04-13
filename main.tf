@@ -321,7 +321,7 @@ module "iks_cluster" {
   # This is an Optional item.  Comment or remove to not use.  Multiple addons can be configured.
   addons = [
     {
-      createNew       = false
+      createNew       = true 
       addonPolicyName = "smm"
       addonName       = "smm"
       # description     = "SMM Policy"
