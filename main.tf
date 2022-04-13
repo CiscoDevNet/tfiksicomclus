@@ -72,10 +72,6 @@ output "organization_moid" {
 #  name  = local.syscfg_list
 #}
 
-# cluster object 
-data "intersight_kubernetes_cluster_profile" "kubeprof" {
-  name  = local.clustername
-}
 
 # kube cluster profiles
 #resource "intersight_kubernetes_cluster_profile" "kubeprof" {
@@ -197,7 +193,7 @@ data "intersight_kubernetes_cluster_profile" "kubeprof" {
 
 #Wait for cluster to come up and then outpt the kubeconfig, if successful
 output "kube_config" {
-	value = data.intersight_kubernetes_cluster_profile.kubeprofaction.kube_config[0].kube_config
+	value = module.iks_cluster.kube_config[0].kube_config
 }
 
 
