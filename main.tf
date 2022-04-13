@@ -351,7 +351,7 @@ module "iks_cluster" {
   }
 
   # Organization and Tag Information
-  organization = var.org
+  organization = "default"
 #  tags         = var.tags
 }
 
