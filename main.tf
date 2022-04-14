@@ -202,7 +202,7 @@ output "organization_moid" {
 output "kube_config" {
 #	value = data.intersight_kubernetes_cluster_profile.kubeprofaction.kube_config[0].kube_config
 #       value = data.intersight_kubernetes_cluster.cluster.results.0.kube_config
-  moid = module.iks_cluster.k8s_cluster_moid
+  value = module.iks_cluster.k8s_cluster_moid
     
 }
 
