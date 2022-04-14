@@ -191,17 +191,19 @@ output "organization_moid" {
 #
 #}
 
-data "intersight_kubernetes_cluster_profile" "kubeprofaction" {
-  moid = module.iks_cluster.k8s_cluster_moid
-}
+#data "intersight_kubernetes_cluster_profile" "kubeprofaction" {
+#  moid = module.iks_cluster.k8s_cluster_moid
+#}
 
-data "intersight_kubernetes_cluster" "cluster" {
-  moid = module.iks_cluster.k8s_cluster_moid
-}
+#data "intersight_kubernetes_cluster" "cluster" {
+#  moid = module.iks_cluster.k8s_cluster_moid
+#}
 #Wait for cluster to come up and then outpt the kubeconfig, if successful
 output "kube_config" {
 #	value = data.intersight_kubernetes_cluster_profile.kubeprofaction.kube_config[0].kube_config
-       value = data.intersight_kubernetes_cluster.cluster.results.0.kube_config
+#       value = data.intersight_kubernetes_cluster.cluster.results.0.kube_config
+  moid = module.iks_cluster.k8s_cluster_moid
+    
 }
 
 
