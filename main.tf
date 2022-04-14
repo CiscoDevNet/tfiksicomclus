@@ -209,13 +209,13 @@ output "k8s_cluster_moid" {
 #data "intersight_kubernetes_cluster" "this" {
 #  moid = intersight_kubernetes_cluster_profile.this.associated_cluster.0.moid
 #}
-output "k8s_cluster_profile_moid" {
-  value = module.iks_cluster.k8s_cluster_profile_moid
-}
+#output "k8s_cluster_profile_moid" {
+#  value = module.iks_cluster.k8s_cluster_profile_moid
+#}
 
-output "k8s_cluster_kubeconfig" {
-  value = module.iks_cluster.k8s_cluster_kubeconfig
-}
+#output "k8s_cluster_kubeconfig" {
+#  value = module.iks_cluster.k8s_cluster_kubeconfig
+#}
 locals {
   organization= yamldecode(data.terraform_remote_state.global.outputs.organization)
   ippool_list = yamldecode(data.terraform_remote_state.global.outputs.ip_pool_policy)
