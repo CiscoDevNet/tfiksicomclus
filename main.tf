@@ -232,7 +232,7 @@ module "iks_cluster" {
   # Kubernetes Cluster Profile  Adjust the values as needed.
   cluster = {
     name                = local.clustername 
-    action              = "Deploy"
+    action              = "Unassign"
     wait_for_completion = true 
     worker_nodes        = 2
     load_balancers      = 5
