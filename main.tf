@@ -199,14 +199,23 @@ output "organization_moid" {
 #  moid = module.iks_cluster.k8s_cluster_moid
 #}
 #Wait for cluster to come up and then outpt the kubeconfig, if successful
-output "moid" {
+output "k8s_cluster_moid" {
 #	value = data.intersight_kubernetes_cluster_profile.kubeprofaction.kube_config[0].kube_config
 #       value = data.intersight_kubernetes_cluster.cluster.results.0.kube_config
   value = module.iks_cluster.k8s_cluster_moid
-    
 }
 
 
+#data "intersight_kubernetes_cluster" "this" {
+#  moid = intersight_kubernetes_cluster_profile.this.associated_cluster.0.moid
+#}
+output "k8s_cluster_profile_moid" {
+  value = module.iks_cluster.k8s_cluster_profile_moid
+}
+
+output "k8s_cluster_kubeconfig" {
+  value = module.iks_cluster.k8s_cluster_kubeconfig
+}
 locals {
   organization= yamldecode(data.terraform_remote_state.global.outputs.organization)
   ippool_list = yamldecode(data.terraform_remote_state.global.outputs.ip_pool_policy)
