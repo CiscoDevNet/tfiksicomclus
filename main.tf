@@ -21,6 +21,9 @@ terraform {
 
 
 
+variable "Action" {
+  type        = string
+}
 variable "org" {
   type        = string
 }
@@ -98,7 +101,7 @@ module "iks_cluster" {
   # Kubernetes Cluster Profile  Adjust the values as needed.
   cluster = {
     name                = local.clustername 
-    action              = "Deploy"
+    action              = var.Action
     wait_for_completion = true 
     worker_nodes        = 2
     load_balancers      = 5
