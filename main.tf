@@ -21,9 +21,6 @@ terraform {
 
 
 
-variable "Action" {
-  type        = string
-}
 variable "org" {
   type        = string
 }
@@ -60,6 +57,143 @@ output "organization_moid" {
 }
 
 
+# IPPool moids
+#data "intersight_ippool_pool" "ippool_moid" {
+#  name  = local.ippool_list
+#}
+
+# Netcfg moids
+#data "intersight_kubernetes_network_policy" "netcfg_moid" {
+#  name  = local.netcfg_list
+#}
+
+# Sysconfig moids
+#data "intersight_kubernetes_sys_config_policy" "syscfg_moid" {
+#  name  = local.syscfg_list
+#}
+
+
+# kube cluster profiles
+#resource "intersight_kubernetes_cluster_profile" "kubeprof" {
+#  name = local.clustername 
+#  wait_for_completion=false
+#  organization {
+#    object_type = "organization.Organization"
+#    moid        = data.intersight_organization_organization.organization_moid.results.0.moid
+#  }
+#  cluster_ip_pools {
+#	object_type = "ippool.Pool" 
+#	moid = data.intersight_ippool_pool.ippool_moid.results.0.moid
+#  }
+#  management_config {
+##	encrypted_etcd = false
+#	load_balancer_count = local.mgmtcfglbcnt
+#	ssh_keys = [ 
+#		 base64decode(var.mgmtcfgsshkeys)
+#	]
+#	ssh_user = local.mgmtcfgsshuser
+#	object_type = "kubernetes.ClusterManagementConfig" 
+#  }
+#  net_config {
+#	moid = data.intersight_kubernetes_network_policy.netcfg_moid.results.0.moid
+#	object_type = "kubernetes.NetworkPolicy" 
+#  }
+#
+#  sys_config {
+#	moid = data.intersight_kubernetes_sys_config_policy.syscfg_moid.results.0.moid
+#	object_type = "kubernetes.SysConfigPolicy" 
+#  }
+#}
+
+
+
+# IpPool moids
+#data "intersight_ippool_pool" "ippoolmaster_moid" {
+#  name  = local.ippoolmaster_list
+#}
+#
+## IpPool moids
+#data "intersight_ippool_pool" "ippoolworker_moid" {
+#  name  = local.ippoolworker_list
+#}
+#
+## Kube version moids
+#data "intersight_kubernetes_version_policy" "kubever_moid" {
+#  name  = local.kubever_list
+#}
+#
+## Infra Config Policy
+#data "intersight_kubernetes_virtual_machine_infra_config_policy" "infrapol" {
+#  name  = local.infrapolname
+#}
+#
+# Instance Type
+#data "intersight_kubernetes_virtual_machine_instance_type" "instancetype" {
+#  name  = local.instancetypename
+#}
+
+# Master
+#resource "intersight_kubernetes_node_group_profile" "masternodegrp" {
+#  name = local.mastergrpname
+#  node_type = "ControlPlaneWorker"
+#  desiredsize = local.masterdesiredsize
+#   minsize = local.masterdesiredsize
+#   maxsize = 2
+#
+#  ip_pools {
+#        object_type = "ippool.Pool" 
+#        moid = data.intersight_ippool_pool.ippoolmaster_moid.results.0.moid
+#  }
+#
+#
+#  cluster_profile {
+#        object_type = "kubernetes.ClusterProfile" 
+#        moid = intersight_kubernetes_cluster_profile.kubeprof.moid
+#  }
+#
+#
+#  kubernetes_version {
+#        object_type = "kubernetes.VersionPolicy" 
+#        moid = data.intersight_kubernetes_version_policy.kubever_moid.results.0.moid
+#  }
+#
+#}
+
+#Infra provider
+#resource "intersight_kubernetes_virtual_machine_infrastructure_provider" "masterinfraprov" {
+#	name = local.masterinfraname
+#	infra_config_policy {
+#		moid =  data.intersight_kubernetes_virtual_machine_infra_config_policy.infrapol.results.0.moid
+#		object_type = "kubernetes.VirtualMachineInfraConfigPolicy"
+#	}
+#	instance_type {
+#		moid =  data.intersight_kubernetes_virtual_machine_instance_type.instancetype.results.0.moid
+#		object_type = "kubernetes.VirtualMachineInstanceType"
+#	}
+#	node_group {
+#		moid = intersight_kubernetes_node_group_profile.masternodegrp.moid 
+#		object_type = "kubernetes.NodeGroupProfile"
+#	}
+
+#}
+
+
+#resource "intersight_kubernetes_cluster_profile" "kubeprofaction" {
+#  depends_on = [
+#        intersight_kubernetes_node_group_profile.masternodegrp
+#  ]
+#  action = "Deploy"
+#  name = intersight_kubernetes_cluster_profile.kubeprof.name
+#  organization {
+#    object_type = "organization.Organization"
+#    moid        = data.intersight_organization_organization.organization_moid.results.0.moid 
+#  }
+#
+#}
+
+#data "intersight_kubernetes_cluster_profile" "kubeprofaction" {
+#  moid = module.iks_cluster.k8s_cluster_moid
+#}
 
 data "intersight_kubernetes_cluster" "cluster" {
   moid = module.iks_cluster.k8s_cluster_moid
@@ -67,12 +201,23 @@ data "intersight_kubernetes_cluster" "cluster" {
 
 #Wait for cluster to come up and then outpt the kubeconfig, if successful
 output "k8s_cluster_moid" {
+#	value = data.intersight_kubernetes_cluster_profile.kubeprofaction.kube_config[0].kube_config
+#       value = data.intersight_kubernetes_cluster.cluster.results.0.kube_config
   value = module.iks_cluster.k8s_cluster_moid
 }
 
 
+#data "intersight_kubernetes_cluster" "this" {
+#  moid = intersight_kubernetes_cluster_profile.this.associated_cluster.0.moid
+#}
+#output "k8s_cluster_profile_moid" {
+#  value = module.iks_cluster.k8s_cluster_profile_moid
+#}
+
 output "kube_config" {
+  #value = data.intersight_kubernetes_cluster_profile.kubeprofaction.kube_config[0].kube_config
   value = data.intersight_kubernetes_cluster.cluster.results.0.kube_config
+  #value = module.iks_cluster.k8s_cluster_kubeconfig
 }
 locals {
   organization= yamldecode(data.terraform_remote_state.global.outputs.organization)
@@ -101,7 +246,7 @@ module "iks_cluster" {
   # Kubernetes Cluster Profile  Adjust the values as needed.
   cluster = {
     name                = local.clustername 
-    action              = var.Action
+    action              = "Unassign"
     wait_for_completion = true 
     worker_nodes        = 2
     load_balancers      = 5
