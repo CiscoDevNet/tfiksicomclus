@@ -241,6 +241,19 @@ locals {
   masterinfraname = yamldecode(data.terraform_remote_state.global.outputs.masterinfraname)
 }
 
+resource "intersight_kubernetes_cluster_profile" "deployaction" {
+  depends_on = [
+    module.iks_cluster
+  ]
+  action = "Deploy"
+  name = local.clustername
+
+  organization {
+    object_type = "organization.Organization"
+    moid        = data.intersight_organization_organization.organization_moid.results.0.moid
+  }
+}
+
 
 module "iks_cluster" {
   source  = "terraform-cisco-modules/iks/intersight//"
