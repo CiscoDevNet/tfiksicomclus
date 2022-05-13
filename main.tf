@@ -119,7 +119,7 @@ module "iks_cluster" {
     name                = local.clustername 
     action              = var.Action
     wait_for_completion = true 
-    worker_nodes        = 2
+    worker_nodes        = 3
     load_balancers      = 5
     worker_max          = 20
     control_nodes       = 1
