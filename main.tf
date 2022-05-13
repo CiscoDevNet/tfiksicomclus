@@ -93,6 +93,7 @@ locals {
   masterdesiredsize = yamldecode(data.terraform_remote_state.global.outputs.masterdesiredsize)
   masterinfraname = yamldecode(data.terraform_remote_state.global.outputs.masterinfraname)
   smm_ver = yamldecode(data.terraform_remote_state.global.outputs.smm_ver)
+  k8s_version = yamldecode(data.terraform_remote_state.global.outputs.k8s_version)
 }
 
 resource "intersight_kubernetes_cluster_profile" "deployaction" {
